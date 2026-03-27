@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
     @GetMapping("/")
     public String index() {
-        return "HELLO WORLD!";
+        return "TP2 - Faire les actions + nouvelles branches de commit. Victor BONNIN";
     }
 }

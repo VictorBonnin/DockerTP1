@@ -1,4 +1,3 @@
-# On passe de la version 21 à la version 25
 FROM eclipse-temurin:25-jre-alpine
 
 WORKDIR /app
