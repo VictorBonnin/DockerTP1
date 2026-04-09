@@ -16,8 +16,8 @@ class HelloControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    void rootEndpointReturnsExpectedMessage() throws Exception {
-        mockMvc.perform(get("/"))
+    void helloEndpointReturnsExpectedMessage() throws Exception {
+        mockMvc.perform(get("/hello"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("TP2 - Faire les actions + nouvelles branches de commit. Victor BONNIN"));
     }
