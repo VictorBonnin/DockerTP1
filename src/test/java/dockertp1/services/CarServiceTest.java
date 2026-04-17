@@ -29,6 +29,15 @@ class CarServiceTest {
     }
 
     @Test
+    public void testAddMultipleCars() {
+        carService.addCar(new Car("A1", "Toyota", 15000.0));
+        carService.addCar(new Car("A2", "BMW", 35000.0));
+        carService.addCar(new Car("A3", "Mercedes", 45000.0));
+
+        assertEquals(3, carService.getAllCars().size());
+    }
+
+    @Test
     public void testGetAllCarsEmpty() {
         List<Car> cars = carService.getAllCars();
         assertTrue(cars.isEmpty());
@@ -54,10 +63,27 @@ class CarServiceTest {
     }
 
     @Test
+    public void testGetCarByPlateNumberFirst() {
+        carService.addCar(new Car("FIRST01", "Audi", 40000.0));
+        carService.addCar(new Car("SECOND02", "BMW", 35000.0));
+
+        Optional<Car> result = carService.getCarByPlateNumber("FIRST01");
+        assertTrue(result.isPresent());
+        assertEquals("Audi", result.get().getBrand());
+        assertEquals(40000.0, result.get().getPrice());
+    }
+
+    @Test
     public void testGetCarByPlateNumberNotFound() {
         carService.addCar(new Car("ABC123", "Toyota", 15000.0));
 
         Optional<Car> result = carService.getCarByPlateNumber("UNKNOWN");
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void testGetCarByPlateNumberEmptyList() {
+        Optional<Car> result = carService.getCarByPlateNumber("ANYTHING");
         assertFalse(result.isPresent());
     }
 
@@ -78,5 +104,28 @@ class CarServiceTest {
         boolean removed = carService.removeCarByPlateNumber("UNKNOWN");
         assertFalse(removed);
         assertEquals(1, carService.getAllCars().size());
+    }
+
+    @Test
+    public void testRemoveFromEmptyList() {
+        boolean removed = carService.removeCarByPlateNumber("ANYTHING");
+        assertFalse(removed);
+    }
+
+    @Test
+    public void testRemoveAllCars() {
+        carService.addCar(new Car("A1", "Toyota", 15000.0));
+        carService.addCar(new Car("A2", "BMW", 35000.0));
+
+        assertTrue(carService.removeCarByPlateNumber("A1"));
+        assertTrue(carService.removeCarByPlateNumber("A2"));
+        assertTrue(carService.getAllCars().isEmpty());
+    }
+
+    @Test
+    public void testAddCarReturnsTheSameObject() {
+        Car car = new Car("RET01", "Fiat", 8000.0);
+        Car returned = carService.addCar(car);
+        assertSame(car, returned);
     }
 }
