@@ -50,8 +50,8 @@ jacocoTestReport {
 
 sonar {
     properties {
-        property 'sonar.projectKey', 'benoit-charroux_rent'
-        property 'sonar.organization', 'benoit-charroux-1'
+        property 'sonar.projectKey', 'VictorBonnin_DockerTP1'
+        property 'sonar.organization', 'victorbonnin'
         property 'sonar.host.url', 'https://sonarcloud.io'
         property 'sonar.sources', 'src/main/java'
         property 'sonar.tests', 'src/test/java'
