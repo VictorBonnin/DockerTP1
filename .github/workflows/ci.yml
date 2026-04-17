@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Nécessaire pour l'analyse SonarCloud
 
       - name: Installer Java 25
         uses: actions/setup-java@v5
@@ -24,8 +26,21 @@ jobs:
       - name: Rendre gradlew exécutable
         run: chmod +x gradlew
 
-      - name: Lancer les tests
-        run: ./gradlew test
+      - name: Lancer les tests et générer le rapport JaCoCo
+        run: ./gradlew test jacocoTestReport
+
+      - name: Uploader la couverture vers Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: build/reports/jacoco/test/jacocoTestReport.xml
+          flags: unittests
+          fail_ci_if_error: false
+
+      - name: Analyse SonarCloud
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew sonar
 
       - name: Builder l'application
         run: ./gradlew build
